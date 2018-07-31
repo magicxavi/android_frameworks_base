@@ -6,15 +6,10 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.ContentObserver;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.os.SystemProperties;
 import android.os.Handler;
 import android.os.UserHandle;
 import android.provider.Settings;
-import android.provider.Settings.System;
 import android.widget.Switch;
-import android.service.quicksettings.Tile;
-import android.text.TextUtils;
 
 import com.android.internal.logging.MetricsLogger;
 import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
@@ -28,10 +23,7 @@ import com.android.systemui.qs.tileimpl.QSTileImpl;
 public class ScreenStabilizationTile extends QSTileImpl<BooleanState> {    
     private ScreenStabilizationObserver mScreenStabilizationObserver;
     private boolean mListening;
-    private boolean mScbStabEnable;
     
-    private final Icon mIcon = ResourceIcon.get(R.drawable.ic_screen_stabilization_enabled);
-
     public ScreenStabilizationTile(QSHost host) {
         super(host);
         mScreenStabilizationObserver = new ScreenStabilizationObserver(new Handler());
@@ -77,25 +69,12 @@ public class ScreenStabilizationTile extends QSTileImpl<BooleanState> {
 
     @Override
     protected void handleUpdateState(BooleanState state, Object arg) {
-        /*final Drawable mEnable = mContext.getDrawable(R.drawable.ic_screen_stabilization_enabled);
-        final Drawable mDisable = mContext.getDrawable(R.drawable.ic_screen_stabilization_disabled);*/
-        mScbStabEnable = (Settings.System.getIntForUser(
-                mContext.getContentResolver(), Settings.System.STABILIZATION_ENABLE,
-                          0, UserHandle.USER_CURRENT) == 1);
-        if (state.slash == null) {
-            state.slash = new SlashState();
-        }
+        final Drawable mEnable = mContext.getDrawable(R.drawable.ic_screen_stabilization_enabled);
+        final Drawable mDisable = mContext.getDrawable(R.drawable.ic_screen_stabilization_disabled);
+        state.value = (Settings.System.getInt(mContext.getContentResolver(), Settings.System.STABILIZATION_ENABLE, 0) == 1);
         state.label = mContext.getString(R.string.quick_settings_stabilization_label);
-        state.icon = mIcon;
-        state.expandedAccessibilityClassName = Switch.class.getName();
+        state.icon = new DrawableIcon(state.value ? mEnable : mDisable);
         state.contentDescription = state.label;
-        if (mScbStabEnable) {
-            state.value = true;
-        } else {
-            state.value = false;
-        }
-        state.slash.isSlashed = !state.value;
-        state.state = state.value ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE;
     }
 
     @Override
