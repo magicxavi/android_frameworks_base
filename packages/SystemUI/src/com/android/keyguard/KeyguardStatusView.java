@@ -1091,6 +1091,14 @@ public class KeyguardStatusView extends GridLayout implements
                        View.GONE) : View.VISIBLE);
                 mClockView.setVisibility(View.GONE);
                 mCustomClockView.setVisibility(View.GONE);
+				mCustomNumClockView.setVisibility(View.GONE);
+                break;
+            case 8: // custom analog with numbers
+                mCustomNumClockView.setVisibility(mDarkAmount != 1 ? (mShowClock ? View.VISIBLE :
+                       View.GONE) : View.VISIBLE);
+                mClockView.setVisibility(View.GONE);
+                mCustomClockView.setVisibility(View.GONE);
+				mSpideyClockView.setVisibility(View.GONE);
                 break;
         }
     }
@@ -1151,6 +1159,9 @@ public class KeyguardStatusView extends GridLayout implements
                 break;
             case 7: // spidey analog
                 params.addRule(RelativeLayout.BELOW, R.id.spidey_clock_view);
+                break;
+            case 8: // custom analog with numbers
+                params.addRule(RelativeLayout.BELOW, R.id.custom_num_clock_view);
                 break;
         }
 
