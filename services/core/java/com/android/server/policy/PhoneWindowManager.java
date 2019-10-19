@@ -1747,7 +1747,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             mScreenshotChordPowerKeyTime = event.getDownTime();
             interceptScreenshotChord();
             interceptRingerToggleChord();
-            interceptScreenrecordChord();
         }
 
         // Stop ringing or end call if configured to do so when power is pressed.
@@ -2306,34 +2305,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     }
 
     private final ScreenshotRunnable mScreenshotRunnable = new ScreenshotRunnable();
-
-    private class ScreenrecordRunnable implements Runnable {
-        private int mMode = SCREEN_RECORD_HIGH_QUALITY;
-
-        public void setMode(int mode) {
-            mMode = mode;
-        }
-
-        @Override
-        public void run() {
-            if (Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.SCREEN_RECORD_SHORTCUT_SWITCH, 1) == 1) {
-                takeScreenrecord(mMode);
-            } else {
-                Slog.d(TAG, "ScreenRecord Shortcut Disabled");
-            }
-        }
-    }
-
-    private final ScreenrecordRunnable mScreenrecordRunnable = new ScreenrecordRunnable();
-
-    Runnable mBackLongPress = new Runnable() {
-        public void run() {
-            if (unpinActivity(false)) {
-                return;
-            }
-        }
-    };
 
     @Override
     public void showGlobalActions() {
@@ -7116,78 +7087,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         keyguardIntent.setPackage("com.android.systemui");
         keyguardIntent.putExtra("launch", launchIntent);
         context.sendBroadcastAsUser(keyguardIntent, user);
-    }
-
-    final Object mScreenrecordLock = new Object();
-    ServiceConnection mScreenrecordConnection = null;
-
-    final Runnable mScreenrecordTimeout = new Runnable() {
-        @Override public void run() {
-            synchronized (mScreenrecordLock) {
-                if (mScreenrecordConnection != null) {
-                    mContext.unbindService(mScreenrecordConnection);
-                    mScreenrecordConnection = null;
-                }
-            }
-        }
-    };
-
-    // Assume this is called from the Handler thread.
-    private void takeScreenrecord(final int mode) {
-        synchronized (mScreenrecordLock) {
-            if (mScreenrecordConnection != null) {
-                return;
-            }
-            ComponentName cn = new ComponentName("com.android.systemui",
-                    "com.android.systemui.havoc.screenrecord.TakeScreenrecordService");
-            Intent intent = new Intent();
-            intent.setComponent(cn);
-            ServiceConnection conn = new ServiceConnection() {
-                @Override
-                public void onServiceConnected(ComponentName name, IBinder service) {
-                    synchronized (mScreenrecordLock) {
-                        Messenger messenger = new Messenger(service);
-                        Message msg = Message.obtain(null, mode);
-                        final ServiceConnection myConn = this;
-                        Handler h = new Handler(mHandler.getLooper()) {
-                            @Override
-                            public void handleMessage(Message msg) {
-                                synchronized (mScreenrecordLock) {
-                                    if (mScreenrecordConnection == myConn) {
-                                        mContext.unbindService(mScreenrecordConnection);
-                                        mScreenrecordConnection = null;
-                                        mHandler.removeCallbacks(mScreenrecordTimeout);
-                                    }
-                                }
-                            }
-                        };
-                        msg.replyTo = new Messenger(h);
-                        msg.arg1 = msg.arg2 = 0;
-                        try {
-                            messenger.send(msg);
-                        } catch (RemoteException e) {
-                        }
-                    }
-                }
-                @Override
-                public void onServiceDisconnected(ComponentName name) {
-                    synchronized (mScreenrecordLock) {
-                        if (mScreenrecordConnection != null) {
-                            mContext.unbindService(mScreenrecordConnection);
-                            mScreenrecordConnection = null;
-                            mHandler.removeCallbacks(mScreenrecordTimeout);
-                        }
-                    }
-                }
-            };
-            if (mContext.bindServiceAsUser(
-                    intent, conn, Context.BIND_AUTO_CREATE, UserHandle.CURRENT)) {
-                mScreenrecordConnection = conn;
-                // Screenrecord max duration is 30 minutes. Allow 32 minutes before killing
-                // the service.
-                mHandler.postDelayed(mScreenrecordTimeout, 32 * 60 * 1000);
-            }
-        }
     }
 
     private boolean isHwKeysDisabled() {

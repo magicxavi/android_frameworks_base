@@ -147,7 +147,6 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener,
     private static final String GLOBAL_ACTION_KEY_TORCH = "torch";
     private static final String GLOBAL_ACTION_KEY_ONTHEGO = "onthego";
 
-    private static final String SYSUI_PACKAGE = "com.android.systemui";
     private static final int SHOW_TOGGLES_BUTTON = 1;
     private static final int RESTART_RECOVERY_BUTTON = 2;
     private static final int RESTART_BOOTLOADER_BUTTON = 3;
@@ -624,11 +623,6 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener,
                         Settings.System.POWERMENU_SCREENSHOT, 0) == 1) {
                     mItems.add(new ScreenshotAction());
                 }
-            } else if (GLOBAL_ACTION_KEY_SCREENRECORD.equals(actionKey)) {
-                if (Settings.System.getInt(mContext.getContentResolver(),
-                        Settings.System.GLOBAL_ACTIONS_SCREENRECORD, 0) == 1) {
-                    mItems.add(new ScreenrecordAction());
-                }
             } else if (GLOBAL_ACTION_KEY_LOGOUT.equals(actionKey)) {
                 if (Settings.System.getInt(mContext.getContentResolver(),
                         Settings.System.POWERMENU_LOGOUT, 0) == 1
@@ -884,32 +878,25 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener,
         };
     }
 
-    private final class ScreenrecordAction extends SinglePressAction implements LongPressAction {
+    private Action getOnTheGoAction() {
+        return new SinglePressAction(com.android.internal.R.drawable.ic_lock_onthego,
+                com.android.systemui.R.string.global_action_onthego) {
+            @Override
+            public void onPress() {
+                OnTheGoActions.processAction(mContext,
+                        OnTheGoActions.ACTION_ONTHEGO_TOGGLE);
+            }
 
-        private ScreenrecordAction() {
-            super(com.android.internal.R.drawable.ic_lock_screenrecord,
-                com.android.systemui.R.string.global_action_screenrecord);
-        }
+            @Override
+            public boolean showDuringKeyguard() {
+                return true;
+            }
 
-        @Override
-        public void onPress() {
-            takeScreenrecord();
-        }
-
-        @Override
-        public boolean onLongPress() {
-            return true;
-        }
-
-        @Override
-        public boolean showDuringKeyguard() {
-            return true;
-        }
-
-        @Override
-        public boolean showBeforeProvisioning() {
-            return true;
-        }
+            @Override
+            public boolean showBeforeProvisioning() {
+                return true;
+            }
+        };
     }
 
     private class BugReportAction extends SinglePressAction implements LongPressAction {

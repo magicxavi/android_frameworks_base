@@ -239,9 +239,6 @@
   <java-symbol type="array" name="config_fontPackages" />
   <java-symbol type="string" name="fontservice_incompatible_font" />
 
-  <!-- Power menu -->
-  <java-symbol type="drawable" name="ic_lock_screenrecord" />
-
   <!-- Weather icons -->
   <java-symbol type="drawable" name="weather_clear_night" />
   <java-symbol type="drawable" name="weather_cloudy" />
@@ -301,4 +298,6 @@
   <java-symbol type="id" name="notification_media_progress_time" />
   <java-symbol type="id" name="notification_media_elapsed_time" />
   <java-symbol type="id" name="notification_media_total_time" />
+	
+	<java-symbol type="bool" name="config_hasInternalAudioRecordingSupport" />
 </resources>
