@@ -5748,11 +5748,6 @@ public final class Settings {
         public static final String STATUS_BAR_CARRIER_COLOR = "status_bar_carrier_color";
 
         /**
-         * @hide
-         */
-        public static final String SCREENRECORD_QUALITY_MODE = "screenrecord_quality_mode";
-
-        /**
          *  Weather to use a custom color for the visualizer on the lock screen
          * @hide
          */
@@ -6055,16 +6050,9 @@ public final class Settings {
         public static final String POWER_MENU_ANIMATIONS = "power_menu_animations";
 
         /**
-         * Whether to display screenshot in the power menu
-         *
-         * @hide
-         */
-        public static final String POWERMENU_SCREENRECORD = "powermenu_screenrecord";
-
-        /**
-         * Volume dialog timeout
-         * @hide
-         */
+          * Volume dialog timeout
+          * @hide
+          */
         public static final String VOLUME_DIALOG_TIMEOUT = "volume_dialog_timeout";
 
         /** @hide */
@@ -6109,13 +6097,6 @@ public final class Settings {
          */
         public static final String RECENTS_ICON_PACK = "recents_icon_pack";
 
-        /**
-         * Switch to Enable/Disable ScreenRecord Shortcut.
-         *
-         * @hide
-         */
-        public static final String SCREEN_RECORD_SHORTCUT_SWITCH = "screen_record_shortcut";
-        
 	    /**
          * Switch to Enable/Disable ScreenShot Shortcut.
          *

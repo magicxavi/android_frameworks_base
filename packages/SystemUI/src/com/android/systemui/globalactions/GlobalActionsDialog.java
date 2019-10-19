@@ -146,12 +146,8 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener,
     private static final String GLOBAL_ACTION_KEY_RESTART_RECOVERY = "recovery";
     private static final String GLOBAL_ACTION_KEY_TORCH = "torch";
     private static final String GLOBAL_ACTION_KEY_ONTHEGO = "onthego";
-    private static final String GLOBAL_ACTION_KEY_SCREENRECORD = "screenrecord";
 
     private static final String SYSUI_PACKAGE = "com.android.systemui";
-    private static final String SYSUI_SCREENRECORD_SERVICE =
-            "com.android.systemui.liquid.screenrecord.TakeScreenrecordService";
-
     private static final int SHOW_TOGGLES_BUTTON = 1;
     private static final int RESTART_RECOVERY_BUTTON = 2;
     private static final int RESTART_BOOTLOADER_BUTTON = 3;
@@ -630,7 +626,7 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener,
                 }
             } else if (GLOBAL_ACTION_KEY_SCREENRECORD.equals(actionKey)) {
                 if (Settings.System.getInt(mContext.getContentResolver(),
-                        Settings.System.POWERMENU_SCREENRECORD, 0) == 1) {
+                        Settings.System.GLOBAL_ACTIONS_SCREENRECORD, 0) == 1) {
                     mItems.add(new ScreenrecordAction());
                 }
             } else if (GLOBAL_ACTION_KEY_LOGOUT.equals(actionKey)) {
@@ -884,27 +880,6 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener,
 
             public boolean showBeforeProvisioning() {
                 return false;
-            }
-        };
-    }
-
-    private Action getOnTheGoAction() {
-        return new SinglePressAction(com.android.internal.R.drawable.ic_lock_onthego,
-                com.android.systemui.R.string.global_action_onthego) {
-            @Override
-            public void onPress() {
-                OnTheGoActions.processAction(mContext,
-                        OnTheGoActions.ACTION_ONTHEGO_TOGGLE);
-            }
-
-            @Override
-            public boolean showDuringKeyguard() {
-                return true;
-            }
-
-            @Override
-            public boolean showBeforeProvisioning() {
-                return true;
             }
         };
     }
@@ -1228,74 +1203,6 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener,
         startIntent.setAction("start");
         mContext.startService(startIntent);
     }
-
-    /**
-     * functions needed for taking screen record.
-     */
-    final Object mScreenrecordLock = new Object();
-    ServiceConnection mScreenrecordConnection = null;
-
-    final Runnable mScreenrecordTimeout = new Runnable() {
-        @Override public void run() {
-            synchronized (mScreenrecordLock) {
-                if (mScreenrecordConnection != null) {
-                    mContext.unbindService(mScreenrecordConnection);
-                    mScreenrecordConnection = null;
-                }
-            }
-        }
-    };
-
-    // Assume this is called from the Handler thread.
-    private void takeScreenrecord() {
-        synchronized (mScreenrecordLock) {
-            if (mScreenrecordConnection != null) {
-                return;
-            }
-            ComponentName cn = new ComponentName(SYSUI_PACKAGE,
-                    SYSUI_SCREENRECORD_SERVICE);
-            Intent intent = new Intent();
-            intent.setComponent(cn);
-            ServiceConnection conn = new ServiceConnection() {
-                @Override
-                public void onServiceConnected(ComponentName name, IBinder service) {
-                    synchronized (mScreenrecordLock) {
-                        Messenger messenger = new Messenger(service);
-                        Message msg = Message.obtain(null, 1);
-                        final ServiceConnection myConn = this;
-                        Handler h = new Handler(mHandler.getLooper()) {
-                            @Override
-                            public void handleMessage(Message msg) {
-                                synchronized (mScreenrecordLock) {
-                                    if (mScreenrecordConnection == myConn) {
-                                        mContext.unbindService(mScreenrecordConnection);
-                                        mScreenrecordConnection = null;
-                                        mHandler.removeCallbacks(mScreenrecordTimeout);
-                                    }
-                                }
-                            }
-                        };
-                        msg.replyTo = new Messenger(h);
-                        msg.arg1 = msg.arg2 = 0;
-                        try {
-                            messenger.send(msg);
-                        } catch (RemoteException e) {
-                        }
-                    }
-                }
-                @Override
-                public void onServiceDisconnected(ComponentName name) {}
-            };
-            if (mContext.bindServiceAsUser(
-                    intent, conn, Context.BIND_AUTO_CREATE, UserHandle.CURRENT)) {
-                mScreenrecordConnection = conn;
-                // Screenrecord max duration is 30 minutes. Allow 31 minutes before killing
-                // the service.
-                mHandler.postDelayed(mScreenrecordTimeout, 31 * 60 * 1000);
-            }
-        }
-    }
-
 
     private void prepareDialog() {
         refreshSilentMode();

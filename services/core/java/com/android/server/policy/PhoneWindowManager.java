@@ -128,9 +128,6 @@ import static android.view.WindowManager.LayoutParams.TYPE_VOICE_INTERACTION_STA
 import static android.view.WindowManager.LayoutParams.TYPE_VOLUME_OVERLAY;
 import static android.view.WindowManager.LayoutParams.TYPE_WALLPAPER;
 import static android.view.WindowManager.LayoutParams.isSystemAlertWindowType;
-import static android.view.WindowManager.SCREEN_RECORD_LOW_QUALITY;
-import static android.view.WindowManager.SCREEN_RECORD_MID_QUALITY;
-import static android.view.WindowManager.SCREEN_RECORD_HIGH_QUALITY;
 import static android.view.WindowManager.TAKE_SCREENSHOT_FULLSCREEN;
 import static android.view.WindowManager.TAKE_SCREENSHOT_SELECTED_REGION;
 import static android.view.WindowManagerGlobal.ADD_OKAY;
@@ -182,7 +179,6 @@ import android.app.StatusBarManager;
 import android.app.UiModeManager;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -195,7 +191,6 @@ import android.content.res.CompatibilityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.content.ServiceConnection;
 import android.database.ContentObserver;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
@@ -228,7 +223,6 @@ import android.os.IBinder;
 import android.os.IDeviceIdleController;
 import android.os.Looper;
 import android.os.Message;
-import android.os.Messenger;
 import android.os.PowerManager;
 import android.os.PowerManagerInternal;
 import android.os.Process;
@@ -859,12 +853,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private boolean mScreenshotChordVolumeDownKeyTriggered;
     private long mScreenshotChordVolumeDownKeyTime;
     private boolean mScreenshotChordVolumeDownKeyConsumed;
-    // screenrecord
-    private boolean mScreenrecordChordEnabled;
-    private boolean mScreenrecordChordVolumeUpKeyTriggered;
-    private long mScreenrecordChordVolumeUpKeyTime;
-    private boolean mScreenrecordChordVolumeUpKeyConsumed;
-    // end screenrecord
     private boolean mA11yShortcutChordVolumeUpKeyTriggered;
     private long mA11yShortcutChordVolumeUpKeyTime;
     private boolean mA11yShortcutChordVolumeUpKeyConsumed;
@@ -1799,7 +1787,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         // If the power key has still not yet been handled, then detect short
         // press, long press, or multi press and decide what to do.
         mPowerKeyHandled = hungUp || mScreenshotChordVolumeDownKeyTriggered
-                || mScreenrecordChordVolumeUpKeyTriggered
                 || mA11yShortcutChordVolumeUpKeyTriggered || gesturedServiceIntercepted;
         if (!mPowerKeyHandled) {
             if (interactive) {
@@ -2204,28 +2191,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         }
     }
 
-    private void interceptScreenrecordChord() {
-        if (mScreenrecordChordEnabled && mScreenrecordChordVolumeUpKeyTriggered
-                && mScreenshotChordPowerKeyTriggered) {
-            final long now = SystemClock.uptimeMillis();
-            if (now <= mScreenrecordChordVolumeUpKeyTime + SCREENSHOT_CHORD_DEBOUNCE_DELAY_MILLIS
-                    && now <= mScreenshotChordPowerKeyTime + SCREENSHOT_CHORD_DEBOUNCE_DELAY_MILLIS) {
-                mScreenrecordChordVolumeUpKeyConsumed = true;
-                cancelPendingPowerKeyAction();
-				int recordQuality = Settings.System.getInt(mContext.getContentResolver(),
-                                            Settings.System.SCREENRECORD_QUALITY_MODE, 2);
-                if (recordQuality == 0) {
-                    mScreenrecordRunnable.setMode(SCREEN_RECORD_LOW_QUALITY);
-                } else if (recordQuality == 1) {
-                    mScreenrecordRunnable.setMode(SCREEN_RECORD_MID_QUALITY);
-                } else if (recordQuality == 2) {
-                    mScreenrecordRunnable.setMode(SCREEN_RECORD_HIGH_QUALITY);
-                }
-                mHandler.postDelayed(mScreenrecordRunnable, getScreenshotChordLongPressDelay());
-            }
-        }
-    }
-
     private void interceptAccessibilityShortcutChord() {
         if (mAccessibilityShortcutController.isAccessibilityShortcutAvailable(isKeyguardLocked())
                 && mScreenshotChordVolumeDownKeyTriggered && mA11yShortcutChordVolumeUpKeyTriggered
@@ -2282,10 +2247,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
     private void cancelPendingScreenshotChordAction() {
         mHandler.removeCallbacks(mScreenshotRunnable);
-    }
-
-    private void cancelPendingScreenrecordChordAction() {
-        mHandler.removeCallbacks(mScreenrecordRunnable);
     }
 
     private void cancelPendingAccessibilityShortcutAction() {
@@ -2366,14 +2327,13 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
     private final ScreenrecordRunnable mScreenrecordRunnable = new ScreenrecordRunnable();
 
-    @Override
-    public void screenRecordAction(int mode) {
-        mContext.enforceCallingOrSelfPermission(Manifest.permission.ACCESS_SURFACE_FLINGER,
-                TAG + "screenRecordAction permission denied");
-        mHandler.removeCallbacks(mScreenrecordRunnable);
-        mScreenrecordRunnable.setMode(mode);
-        mHandler.post(mScreenrecordRunnable);
-    }
+    Runnable mBackLongPress = new Runnable() {
+        public void run() {
+            if (unpinActivity(false)) {
+                return;
+            }
+        }
+    };
 
     @Override
     public void showGlobalActions() {
@@ -2972,9 +2932,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
         mScreenshotChordEnabled = mContext.getResources().getBoolean(
                 com.android.internal.R.bool.config_enableScreenshotChord);
-
-        mScreenrecordChordEnabled = mContext.getResources().getBoolean(
-                com.android.internal.R.bool.config_enableScreenrecordChord);
 
         mGlobalKeyManager = new GlobalKeyManager(mContext);
 
@@ -4664,26 +4621,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     && mScreenshotChordVolumeDownKeyConsumed) {
                 if (!down) {
                     mScreenshotChordVolumeDownKeyConsumed = false;
-                }
-                return -1;
-            }
-        }
-
-        // If we think we might have a volume up & power key chord on the way
-        // but we're not sure, then tell the dispatcher to wait a little while and
-        // try again later before dispatching.
-        if (mScreenrecordChordEnabled && (flags & KeyEvent.FLAG_FALLBACK) == 0) {
-            if (mScreenrecordChordVolumeUpKeyTriggered && !mScreenshotChordPowerKeyTriggered) {
-                final long now = SystemClock.uptimeMillis();
-                final long timeoutTime = mScreenrecordChordVolumeUpKeyTime + SCREENSHOT_CHORD_DEBOUNCE_DELAY_MILLIS;
-                if (now < timeoutTime) {
-                    return timeoutTime - now;
-                }
-            }
-            if (keyCode == KeyEvent.KEYCODE_VOLUME_UP
-                    && mScreenrecordChordVolumeUpKeyConsumed) {
-                if (!down) {
-                    mScreenrecordChordVolumeUpKeyConsumed = false;
                 }
                 return -1;
             }
@@ -7174,6 +7111,13 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         setHdmiPlugged(!mHdmiPlugged);
     }
 
+    void launchKeyguardDismissIntent(Context context, UserHandle user, Intent launchIntent) {
+        Intent keyguardIntent = new Intent("com.android.systemui.ACTION_DISMISS_KEYGUARD");
+        keyguardIntent.setPackage("com.android.systemui");
+        keyguardIntent.putExtra("launch", launchIntent);
+        context.sendBroadcastAsUser(keyguardIntent, user);
+    }
+
     final Object mScreenrecordLock = new Object();
     ServiceConnection mScreenrecordConnection = null;
 
@@ -7195,7 +7139,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 return;
             }
             ComponentName cn = new ComponentName("com.android.systemui",
-                    "com.android.systemui.liquid.screenrecord.TakeScreenrecordService");
+                    "com.android.systemui.havoc.screenrecord.TakeScreenrecordService");
             Intent intent = new Intent();
             intent.setComponent(cn);
             ServiceConnection conn = new ServiceConnection() {
@@ -7484,7 +7428,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                             mScreenshotChordVolumeDownKeyTime = event.getDownTime();
                             mScreenshotChordVolumeDownKeyConsumed = false;
                             cancelPendingPowerKeyAction();
-                            cancelPendingScreenrecordChordAction();
                             interceptScreenshotChord();
                             interceptAccessibilityShortcutChord();
                         }
@@ -7492,34 +7435,26 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                         mScreenshotChordVolumeDownKeyTriggered = false;
                         cancelPendingScreenshotChordAction();
                         cancelPendingAccessibilityShortcutAction();
-                        cancelPendingScreenrecordChordAction();
                     }
                 } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
                     if (down) {
-                        if (interactive && (!mA11yShortcutChordVolumeUpKeyTriggered
-                                || !mScreenrecordChordVolumeUpKeyTriggered)
+                        if (interactive && !mA11yShortcutChordVolumeUpKeyTriggered
                                 && (event.getFlags() & KeyEvent.FLAG_FALLBACK) == 0) {
                             mA11yShortcutChordVolumeUpKeyTriggered = true;
                             mA11yShortcutChordVolumeUpKeyTime = event.getDownTime();
                             mA11yShortcutChordVolumeUpKeyConsumed = false;
-                            mScreenrecordChordVolumeUpKeyTriggered = true;
-                            mScreenrecordChordVolumeUpKeyTime = event.getDownTime();
-                            mScreenrecordChordVolumeUpKeyConsumed = false;
                             cancelPendingPowerKeyAction();
                             cancelPendingScreenshotChordAction();
                             cancelPendingRingerToggleChordAction();
 
-                            interceptScreenrecordChord();
                             interceptAccessibilityShortcutChord();
                             interceptRingerToggleChord();
                         }
                     } else {
                         mA11yShortcutChordVolumeUpKeyTriggered = false;
-                        mScreenrecordChordVolumeUpKeyTriggered = false;
                         cancelPendingScreenshotChordAction();
                         cancelPendingAccessibilityShortcutAction();
                         cancelPendingRingerToggleChordAction();
-                        cancelPendingScreenrecordChordAction();
                     }
                 }
                 if (down) {

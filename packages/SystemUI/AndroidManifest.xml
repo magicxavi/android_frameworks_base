@@ -337,12 +337,6 @@
             </intent-filter>
         </receiver>
 
-        <!-- started from PhoneWindowManager
-             TODO: Should have an android:permission attribute -->
-        <service android:name=".liquid.screenrecord.TakeScreenrecordService"
-            android:process=":screenrecord"
-            android:exported="false" />
-
         <service android:name=".ImageWallpaper"
                 android:permission="android.permission.BIND_WALLPAPER"
                 android:exported="true" />
@@ -445,17 +439,17 @@
             android:exported="false" />
 
         <!-- Springboard for launching the share activity -->
-        <receiver android:name=".liquid.screenrecord.GlobalScreenrecord$ShareReceiver"
+        <receiver android:name=".havoc.screenrecord.GlobalScreenrecord$ShareReceiver"
             android:process=":screenrecord"
             android:exported="false" />
 
         <!-- Callback for dismissing screenrecord notification after a share target is picked -->
-        <receiver android:name=".liquid.screenrecord.GlobalScreenrecord$TargetChosenReceiver"
+        <receiver android:name=".havoc.screenrecord.GlobalScreenrecord$TargetChosenReceiver"
             android:process=":screenrecord"
             android:exported="false" />
 
         <!-- Callback for deleting screenrecord notification -->
-        <receiver android:name=".liquid.screenrecord.GlobalScreenrecord$DeleteScreenrecordReceiver"
+        <receiver android:name=".havoc.screenrecord.GlobalScreenrecord$DeleteScreenrecordReceiver"
             android:process=":screenrecord"
             android:exported="false" />
 
