@@ -374,11 +374,6 @@ public class KeyguardSliceView extends LinearLayout implements View.OnClickListe
         mRow.getBackground().setAlpha(bgAlpha);
     }
 
-    public void setViewBackground(Drawable drawRes, int bgAlpha) {
-        mRow.setBackground(drawRes);
-        mRow.getBackground().setAlpha(bgAlpha);
-    }
-
     public void setViewBackgroundResource(int drawRes) {
         mRow.setBackgroundResource(drawRes);
     }
