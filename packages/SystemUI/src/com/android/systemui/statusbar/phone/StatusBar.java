@@ -4683,7 +4683,6 @@ public class StatusBar extends SystemUI implements DemoMode,
             unfuckBlackWhiteAccent();
             umm.setNightMode(useDarkTheme ? UiModeManager.MODE_NIGHT_YES : UiModeManager.MODE_NIGHT_NO);
             ThemeAccentUtils.setLightDarkTheme(mOverlayManager, mLockscreenUserManager.getCurrentUserId(), useDarkTheme);
-            mNotificationPanel.setLockscreenClockTheme(useDarkTheme);
         }
 
         if (isUsingBlackTheme() != useBlackTheme) {

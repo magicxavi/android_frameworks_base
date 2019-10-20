@@ -239,10 +239,6 @@ public class KeyguardSliceProvider extends SliceProvider implements
             mContentResolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.LOCKSCREEN_DATE_SELECTION),
                     false, this, UserHandle.USER_ALL);
-            mContentResolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.LOCKSCREEN_DATE_SELECTION),
-                    false, this, UserHandle.USER_ALL);
-            mHandler.post(KeyguardSliceProvider.this::updateWeatherSettings);
         }
 
         @Override
@@ -251,8 +247,6 @@ public class KeyguardSliceProvider extends SliceProvider implements
             if (uri.equals(Settings.System.getUriFor(Settings.System.LOCKSCREEN_DATE_SELECTION))) {
                 updateDateSkeleton();
                 mContentResolver.notifyChange(mSliceUri, null /* observer */);
-            } else {
-                mHandler.post(KeyguardSliceProvider.this::updateWeatherSettings);
             }
         }
 
@@ -260,30 +254,6 @@ public class KeyguardSliceProvider extends SliceProvider implements
             mLsDateSel = Settings.System.getIntForUser(mContentResolver, Settings.System.LOCKSCREEN_DATE_SELECTION, 0, UserHandle.USER_CURRENT);
             switch (mLsDateSel) {
             case 4: case 6: case 8: case 11: case 12:
-                mDatePattern = getContext().getString(R.string.abbrev_wday_day_no_year);
-                break;
-            case 5: case 7: case 9:
-                mDatePattern = getContext().getString(R.string.abbrev_wday_no_year);
-                break;
-            case 10:
-                mDatePattern = getContext().getString(R.string.abbrev_wday_month_no_year);
-                break;
-            default:
-                mDatePattern = getContext().getString(R.string.system_ui_aod_date_pattern);
-                break;
-            }
-            updateClock();
-        }
-    }
-
-        public void updateLockscreenUnit() {
-            useMetricUnit = Settings.System.getIntForUser(mContentResolver, Settings.System.WEATHER_LOCKSCREEN_UNIT, 0, UserHandle.USER_CURRENT) == 0;
-        }
-
-        public void updateDateSkeleton() {
-            mLsDateSel = Settings.System.getIntForUser(mContentResolver, Settings.System.LOCKSCREEN_DATE_SELECTION, 0, UserHandle.USER_CURRENT);
-            switch (mLsDateSel) {
-            case 4: case 6: case 8:
                 mDatePattern = getContext().getString(R.string.abbrev_wday_day_no_year);
                 break;
             case 5: case 7: case 9:
