@@ -1,115 +1,115 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <string-array name="type_clock_hours">
-        <item>двенадцать</item>
-        <item>один</item>
-        <item>два</item>
-        <item>три</item>
-        <item>четыре</item>
-        <item>пять</item>
-        <item>шесть</item>
-        <item>семь</item>
-        <item>восемь</item>
-        <item>девять</item>
-        <item>десять</item>
-        <item>одиннадцать</item>
+        <item>Двенадцать</item>
+        <item>Один</item>
+        <item>Два</item>
+        <item>Три</item>
+        <item>Четыре</item>
+        <item>Пять</item>
+        <item>Шесть</item>
+        <item>Семь</item>
+        <item>Восемь</item>
+        <item>Девять</item>
+        <item>Десять</item>
+        <item>Одиннадцать</item>
     </string-array>
     <string-array name="type_clock_minutes">
-        <item>ровно</item>
-        <item>ноль одна</item>
-        <item>ноль две</item>
-        <item>ноль три</item>
-        <item>ноль четыре</item>
-        <item>ноль пять</item>
-        <item>ноль шесть</item>
-        <item>ноль семь</item>
-        <item>ноль восемь</item>
-        <item>ноль девять</item>
-        <item>десять</item>
-        <item>одиннадцать</item>
-        <item>двенадцать</item>
-        <item>тринадцать</item>
-        <item>четырнадцать</item>
-        <item>пятнадцать</item>
-        <item>шестнадцать</item>
-        <item>семнадцать</item>
-        <item>восемнадцать</item>
-        <item>девятнадцать</item>
-        <item>двадцать</item>
-        <item>двадцать
+        <item>Ровно</item>
+        <item>Ноль одна</item>
+        <item>Ноль две</item>
+        <item>Ноль три</item>
+        <item>Ноль четыре</item>
+        <item>Ноль пять</item>
+        <item>Ноль шесть</item>
+        <item>Ноль семь</item>
+        <item>Ноль восемь</item>
+        <item>Ноль девять</item>
+        <item>Десять</item>
+        <item>Одиннадцать</item>
+        <item>Двенадцать</item>
+        <item>Тринадцать</item>
+        <item>Четырнадцать</item>
+        <item>Пятнадцать</item>
+        <item>Шестнадцать</item>
+        <item>Семнадцать</item>
+        <item>Восемнадцать</item>
+        <item>Девятнадцать</item>
+        <item>Двадцать</item>
+        <item>Двадцать
 одна</item>
-        <item>двадцать
+        <item>Двадцать
 две</item>
-        <item>двадцать
+        <item>Двадцать
 три</item>
-        <item>двадцать
+        <item>Двадцать
 четыре</item>
-        <item>двадцать
+        <item>Двадцать
 пять</item>
-        <item>двадцать
+        <item>Двадцать
 шесть</item>
-        <item>двадцать
+        <item>Двадцать
 семь</item>
-        <item>двадцать
+        <item>Двадцать
 восемь</item>
-        <item>двадцать
+        <item>Двадцать
 девять</item>
-        <item>тридцать</item>
-        <item>тридцать
+        <item>Тридцать</item>
+        <item>Тридцать
 одна</item>
-        <item>тридцать
+        <item>Тридцать
 две</item>
-        <item>тридцать
+        <item>Тридцать
 три</item>
-        <item>тридцать
+        <item>Тридцать
 четыре</item>
-        <item>тридцать
+        <item>Тридцать
 пять</item>
-        <item>тридцать
+        <item>Тридцать
 шесть</item>
-        <item>тридцать
+        <item>Тридцать
 семь</item>
-        <item>тридцать
+        <item>Тридцать
 восемь</item>
-        <item>тридцать
+        <item>Тридцать
 девять</item>
-        <item>сорок</item>
-        <item>сорок
+        <item>Сорок</item>
+        <item>Сорок
 одна</item>
-        <item>сорок
+        <item>Сорок
 две</item>
-        <item>сорок
+        <item>Сорок
 три</item>
-        <item>сорок
+        <item>Сорок
 четыре</item>
-        <item>сорок
+        <item>Сорок
 пять</item>
-        <item>сорок
+        <item>Сорок
 шесть</item>
-        <item>cорок
+        <item>Сорок
 семь</item>
-        <item>сорок
+        <item>Сорок
 восемь</item>
-        <item>сорок
+        <item>Сорок
 девять</item>
-        <item>пятьдесят</item>
-        <item>пятьдесят
+        <item>Пятьдесят</item>
+        <item>Пятьдесят
 одна</item>
-        <item>пятьдесят
+        <item>Пятьдесят
 две</item>
-        <item>пятьдесят
+        <item>Пятьдесят
 три</item>
-        <item>пятьдесят
+        <item>Пятьдесят
 четыре</item>
-        <item>пятьдесят
+        <item>Пятьдесят
 пять</item>
-        <item>пятьдесят
+        <item>Пятьдесят
 шесть</item>
-        <item>пятьдесят
+        <item>Пятьдесят
 семь</item>
-        <item>пятьдесят
+        <item>Пятьдесят
 восемь</item>
-        <item>пятьдесят
+        <item>Пятьдесят
 девять</item>
     </string-array>
 </resources>
