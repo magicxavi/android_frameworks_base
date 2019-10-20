@@ -416,7 +416,9 @@ public class KeyguardStatusView extends GridLayout implements
         } else if (mClockSelection == 1) {
             mClockView.setFormat12Hour(Html.fromHtml("<strong>h</strong>mm"));
             mClockView.setFormat24Hour(Html.fromHtml("<strong>kk</strong>mm"));
-        } else if (mClockSelection == 5) {
+        } else if (mClockSelection == 2) {
+            mCustomClockView.onTimeChanged();
+        } else if (mClockSelection == 4) {
             mClockView.setFormat12Hour(Html.fromHtml("<strong>hh</strong><br>mm"));
             mClockView.setFormat24Hour(Html.fromHtml("<strong>kk</strong><br>mm"));
         } else if (mClockSelection == 5) {
@@ -425,6 +427,27 @@ public class KeyguardStatusView extends GridLayout implements
         } else if (mClockSelection == 6) {
             mClockView.setFormat12Hour(Html.fromHtml("<font color='#454545'>hh</font><br><font color=" + getResources().getColor(R.color.sammy_minutes_accent) + ">mm</font>"));
             mClockView.setFormat24Hour(Html.fromHtml("<font color='#454545'>kk</font><br><font color=" + getResources().getColor(R.color.sammy_minutes_accent) + ">mm</font>"));
+        } else if (mClockSelection == 7) {
+            mSpideyClockView.onTimeChanged();
+        } else if (mClockSelection == 8) {
+            mCustomNumClockView.onTimeChanged();
+        } else if (mClockSelection == 9) {
+            mClockView.setFormat12Hour(Html.fromHtml("<font color=" + getResources().getColor(R.color.sammy_minutes_accent) + "><strong>h</strong>mm</font>"));
+            mClockView.setFormat24Hour(Html.fromHtml("<font color=" + getResources().getColor(R.color.sammy_minutes_accent) + "><strong>kk</strong>mm</font>"));
+        } else if (mClockSelection == 10) {
+            mClockView.setFormat12Hour(Html.fromHtml("<font color=" + getResources().getColor(R.color.sammy_minutes_accent) + "><strong>h</strong></font>mm"));
+            mClockView.setFormat24Hour(Html.fromHtml("<font color=" + getResources().getColor(R.color.sammy_minutes_accent) + "><strong>kk</strong></font>mm"));
+        } else if (mClockSelection == 11) {
+            mClockView.setFormat12Hour(Html.fromHtml("<strong>h</strong><font color=" + getResources().getColor(R.color.sammy_minutes_accent) + ">mm</font>"));
+            mClockView.setFormat24Hour(Html.fromHtml("<strong>kk</strong><font color=" + getResources().getColor(R.color.sammy_minutes_accent) + ">mm</font>"));
+        } else if (mClockSelection == 12) {
+            mDotClockView.onTimeChanged();
+        } else if (mClockSelection == 13) {
+            mSpectrumClockView.onTimeChanged();
+        } else if (mClockSelection == 14) {
+            mSneekyClockView.onTimeChanged();
+        } else if (mClockSelection == 15) {
+            mTextClock.onTimeChanged();
         } else {
             mClockView.setFormat12Hour("hh\nmm");
             mClockView.setFormat24Hour("kk\nmm");
@@ -1053,6 +1076,103 @@ public class KeyguardStatusView extends GridLayout implements
         }
     }
 
+    private void updateDateStyles() {
+        switch (mDateSelection) {
+            case 0: // default
+            default:
+                mKeyguardSlice.setViewBackgroundResource(0);
+                mDateVerPadding = 0;
+                mDateHorPadding = 0;
+                mKeyguardSlice.setViewPadding(mDateHorPadding,mDateVerPadding,mDateHorPadding,mDateVerPadding);
+                mKeyguardSlice.setViewsTextStyles(0.05f, false);
+                break;
+            case 1: // semi-transparent box
+                mKeyguardSlice.setViewBackground(getResources().getDrawable(R.drawable.date_box_str_border));
+                mDateHorPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.widget_date_box_padding_hor),getResources().getDisplayMetrics()));
+                mDateVerPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.widget_date_box_padding_ver),getResources().getDisplayMetrics()));
+                mKeyguardSlice.setViewPadding(mDateHorPadding,mDateVerPadding,mDateHorPadding,mDateVerPadding);
+                mKeyguardSlice.setViewsTextStyles(0.05f, false);
+                break;
+            case 2: // semi-transparent box (round)
+                mKeyguardSlice.setViewBackground(getResources().getDrawable(R.drawable.date_str_border));
+                mDateHorPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.widget_date_box_padding_hor),getResources().getDisplayMetrics()));
+                mDateVerPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.widget_date_box_padding_ver),getResources().getDisplayMetrics()));
+                mKeyguardSlice.setViewPadding(mDateHorPadding,mDateVerPadding,mDateHorPadding,mDateVerPadding);
+                mKeyguardSlice.setViewsTextStyles(0.05f, false);
+                break;
+            case 3: // Q-Now Playing background
+                mKeyguardSlice.setViewBackground(getResources().getDrawable(R.drawable.ambient_indication_pill_background));
+                mDateHorPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.q_nowplay_pill_padding_hor),getResources().getDisplayMetrics()));
+                mDateVerPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.q_nowplay_pill_padding_ver),getResources().getDisplayMetrics()));
+                mKeyguardSlice.setViewPadding(mDateHorPadding,mDateVerPadding,mDateHorPadding,mDateVerPadding);
+                mKeyguardSlice.setViewsTextStyles(0.05f, false);
+                break;
+            case 4: // accent box
+                mKeyguardSlice.setViewBackground(getResources().getDrawable(R.drawable.date_str_accent));
+                mDateHorPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor),getResources().getDisplayMetrics()));
+                mDateVerPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver),getResources().getDisplayMetrics()));
+                mKeyguardSlice.setViewPadding(mDateHorPadding,mDateVerPadding,mDateHorPadding,mDateVerPadding);
+                mKeyguardSlice.setViewsTextStyles(0.15f, true);
+                break;
+            case 5: // accent box but just the day
+                mKeyguardSlice.setViewBackground(getResources().getDrawable(R.drawable.date_str_accent));
+                mDateHorPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor),getResources().getDisplayMetrics()));
+                mDateVerPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver),getResources().getDisplayMetrics()));
+                mKeyguardSlice.setViewPadding(mDateHorPadding,mDateVerPadding,mDateHorPadding,mDateVerPadding);
+                mKeyguardSlice.setViewsTextStyles(0.15f, true);
+                break;
+            case 6: // accent box transparent
+                mKeyguardSlice.setViewBackground(getResources().getDrawable(R.drawable.date_str_accent), 160);
+                mDateHorPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor),getResources().getDisplayMetrics()));
+                mDateVerPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver),getResources().getDisplayMetrics()));
+                mKeyguardSlice.setViewPadding(mDateHorPadding,mDateVerPadding,mDateHorPadding,mDateVerPadding);
+                mKeyguardSlice.setViewsTextStyles(0.15f, true);
+                break;
+            case 7: // accent box transparent but just the day
+                mKeyguardSlice.setViewBackground(getResources().getDrawable(R.drawable.date_str_accent), 160);
+                mDateHorPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor),getResources().getDisplayMetrics()));
+                mDateVerPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver),getResources().getDisplayMetrics()));
+                mKeyguardSlice.setViewPadding(mDateHorPadding,mDateVerPadding,mDateHorPadding,mDateVerPadding);
+                mKeyguardSlice.setViewsTextStyles(0.15f, true);
+                break;
+            case 8: // gradient box
+                mKeyguardSlice.setViewBackground(getResources().getDrawable(R.drawable.date_str_gradient));
+                mDateHorPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor),getResources().getDisplayMetrics()));
+                mDateVerPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver),getResources().getDisplayMetrics()));
+                mKeyguardSlice.setViewPadding(mDateHorPadding,mDateVerPadding,mDateHorPadding,mDateVerPadding);
+                mKeyguardSlice.setViewsTextStyles(0.15f, true);
+                break;
+            case 9: // Dark Accent border
+                mKeyguardSlice.setViewBackground(getResources().getDrawable(R.drawable.date_str_borderacc));
+                mDateHorPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor),getResources().getDisplayMetrics()));
+                mDateVerPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver),getResources().getDisplayMetrics()));
+                mKeyguardSlice.setViewPadding(mDateHorPadding,mDateVerPadding,mDateHorPadding,mDateVerPadding);
+                mKeyguardSlice.setViewsTextStyles(0.08f, true);
+                break;
+            case 10: // Dark Gradient border
+                mKeyguardSlice.setViewBackground(getResources().getDrawable(R.drawable.date_str_bordergrad));
+                mDateHorPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor),getResources().getDisplayMetrics()));
+                mDateVerPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver),getResources().getDisplayMetrics()));
+                mKeyguardSlice.setViewPadding(mDateHorPadding,mDateVerPadding,mDateHorPadding,mDateVerPadding);
+                mKeyguardSlice.setViewsTextStyles(0.08f, true);
+                break;
+           case 11: // gradient box with transparent end
+                mKeyguardSlice.setViewBackground(getResources().getDrawable(R.drawable.date_str_half_gradient));
+                mDateHorPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor),getResources().getDisplayMetrics()));
+                mDateVerPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver),getResources().getDisplayMetrics()));
+                mKeyguardSlice.setViewPadding(mDateHorPadding,mDateVerPadding,mDateHorPadding,mDateVerPadding);
+                mKeyguardSlice.setViewsTextStyles(0.15f, true);
+                break;
+           case 12: // Accent box with transparent end
+                mKeyguardSlice.setViewBackground(getResources().getDrawable(R.drawable.date_str_half_accent));
+                mDateHorPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor),getResources().getDisplayMetrics()));
+                mDateVerPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver),getResources().getDisplayMetrics()));
+                mKeyguardSlice.setViewPadding(mDateHorPadding,mDateVerPadding,mDateHorPadding,mDateVerPadding);
+                mKeyguardSlice.setViewsTextStyles(0.15f, true);
+                break;
+        }
+    }	
+	
     private void updateSettings() {
         final ContentResolver resolver = getContext().getContentResolver();
 
