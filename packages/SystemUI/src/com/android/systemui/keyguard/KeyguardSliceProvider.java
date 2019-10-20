@@ -244,12 +244,19 @@ public class KeyguardSliceProvider extends SliceProvider implements
         @Override
         public void onChange(boolean selfChange, Uri uri) {
             super.onChange(selfChange, uri);
-            if (uri.equals(Settings.System.getUriFor(Settings.System.LOCKSCREEN_DATE_SELECTION))) {
+            if (uri.equals(Settings.System.getUriFor(Settings.System.WEATHER_LOCKSCREEN_UNIT))) {
+                updateLockscreenUnit();
+                mContentResolver.notifyChange(mSliceUri, null /* observer */);
+            } else if (uri.equals(Settings.System.getUriFor(Settings.System.LOCKSCREEN_DATE_SELECTION))) {
                 updateDateSkeleton();
                 mContentResolver.notifyChange(mSliceUri, null /* observer */);
             }
         }
 
+        public void updateLockscreenUnit() {
+            useMetricUnit = Settings.System.getIntForUser(mContentResolver, Settings.System.WEATHER_LOCKSCREEN_UNIT, 0, UserHandle.USER_CURRENT) == 0;
+        }		
+		
         public void updateDateSkeleton() {
             mLsDateSel = Settings.System.getIntForUser(mContentResolver, Settings.System.LOCKSCREEN_DATE_SELECTION, 0, UserHandle.USER_CURRENT);
             switch (mLsDateSel) {
@@ -280,7 +287,10 @@ public class KeyguardSliceProvider extends SliceProvider implements
         mZenModeController.addCallback(this);
         mWeatherSettingsObserver = new WeatherSettingsObserver(mHandler);
         mWeatherSettingsObserver.observe();
+        mWeatherSettingsObserver.updateLockscreenUnit();
         mWeatherSettingsObserver.updateDateSkeleton();
+        mWeatherClient = new WeatherClient(getContext());
+        mWeatherClient.addObserver(this, false /*withQuery*/);
         registerClockUpdate();
         updateClock();
         return true;
