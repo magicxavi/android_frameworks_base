@@ -142,15 +142,32 @@
     <dimen name="shortcut_margin_top">25dp</dimen>
 
     <!-- Custom text clock -->
-    <dimen name="customtextclock_fontsize">24dp</dimen>
-	<dimen name="customtextclock_fontsize_1">26dp</dimen>
-	<dimen name="customtextclock_fontsize_2">28dp</dimen>
-	<dimen name="customtextclock_fontsize_3">30dp</dimen>
-	<dimen name="customtextclock_fontsize_4">32dp</dimen>
-	<dimen name="customtextclock_fontsize_5">34dp</dimen>
-	<dimen name="customtextclock_fontsize_6">36dp</dimen>
-	<dimen name="customtextclock_fontsize_7">38dp</dimen>
-	<dimen name="customtextclock_fontsize_8">40dp</dimen>
+    <dimen name="customtextclock_fontsize">16dp</dimen>
+	<dimen name="customtextclock_fontsize_1">17dp</dimen>
+	<dimen name="customtextclock_fontsize_2">18dp</dimen>
+	<dimen name="customtextclock_fontsize_3">19dp</dimen>
+	<dimen name="customtextclock_fontsize_4">20dp</dimen>
+	<dimen name="customtextclock_fontsize_5">21dp</dimen>
+	<dimen name="customtextclock_fontsize_6">22dp</dimen>
+	<dimen name="customtextclock_fontsize_7">23dp</dimen>
+	<dimen name="customtextclock_fontsize_8">24dp</dimen>
+	<dimen name="customtextclock_fontsize_9">25dp</dimen>
+    <dimen name="customtextclock_fontsize_10">26dp</dimen>
+	<dimen name="customtextclock_fontsize_11">27dp</dimen>
+	<dimen name="customtextclock_fontsize_12">28dp</dimen>
+	<dimen name="customtextclock_fontsize_13">29dp</dimen>
+	<dimen name="customtextclock_fontsize_14">30dp</dimen>
+	<dimen name="customtextclock_fontsize_15">31dp</dimen>
+	<dimen name="customtextclock_fontsize_16">32dp</dimen>
+	<dimen name="customtextclock_fontsize_17">33dp</dimen>
+	<dimen name="customtextclock_fontsize_18">34dp</dimen>
+	<dimen name="customtextclock_fontsize_19">35dp</dimen>
+    <dimen name="customtextclock_fontsize_20">36dp</dimen>
+	<dimen name="customtextclock_fontsize_21">37dp</dimen>
+	<dimen name="customtextclock_fontsize_22">38dp</dimen>
+	<dimen name="customtextclock_fontsize_23">39dp</dimen>
+	<dimen name="customtextclock_fontsize_24">40dp</dimen>
+
     <dimen name="custom_clock_left_padding">50dp</dimen>
 
     <!-- Padding for date view -->

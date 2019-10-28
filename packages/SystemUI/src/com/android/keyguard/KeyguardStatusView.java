@@ -832,51 +832,83 @@ public class KeyguardStatusView extends GridLayout implements
         } else if (lockClockSize == 59) {
         mClockView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimensionPixelSize(R.dimen.lock_clock_font_size_59));
+		mTextClock.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimensionPixelSize(R.dimen.customtextclock_fontsize_9));
         } else if (lockClockSize == 60) {
         mClockView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimensionPixelSize(R.dimen.lock_clock_font_size_60));
+		mTextClock.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimensionPixelSize(R.dimen.customtextclock_fontsize_10));
         } else if (lockClockSize == 61) {
         mClockView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimensionPixelSize(R.dimen.lock_clock_font_size_61));
+		mTextClock.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimensionPixelSize(R.dimen.customtextclock_fontsize_11));
         } else if (lockClockSize == 62) {
         mClockView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimensionPixelSize(R.dimen.lock_clock_font_size_62));
+		mTextClock.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimensionPixelSize(R.dimen.customtextclock_fontsize_12));
         } else if (lockClockSize == 63) {
         mClockView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimensionPixelSize(R.dimen.lock_clock_font_size_63));
+		mTextClock.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimensionPixelSize(R.dimen.customtextclock_fontsize_13));
         } else if (lockClockSize == 64) {
         mClockView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimensionPixelSize(R.dimen.lock_clock_font_size_64));
+		mTextClock.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimensionPixelSize(R.dimen.customtextclock_fontsize_14));
         } else if (lockClockSize == 65) {
         mClockView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimensionPixelSize(R.dimen.lock_clock_font_size_65));
+		mTextClock.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimensionPixelSize(R.dimen.customtextclock_fontsize_15));
         } else if (lockClockSize == 66) {
         mClockView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimensionPixelSize(R.dimen.lock_clock_font_size_66));
+		mTextClock.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimensionPixelSize(R.dimen.customtextclock_fontsize_16));
         } else if (lockClockSize == 66) {
         mClockView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimensionPixelSize(R.dimen.lock_clock_font_size_67));
+		mTextClock.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimensionPixelSize(R.dimen.customtextclock_fontsize_17));
         } else if (lockClockSize == 68) {
         mClockView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimensionPixelSize(R.dimen.lock_clock_font_size_68));
+		mTextClock.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimensionPixelSize(R.dimen.customtextclock_fontsize_18));
         } else if (lockClockSize == 69) {
         mClockView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimensionPixelSize(R.dimen.lock_clock_font_size_69));
+		mTextClock.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimensionPixelSize(R.dimen.customtextclock_fontsize_19));
         } else if (lockClockSize == 70) {
         mClockView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimensionPixelSize(R.dimen.lock_clock_font_size_70));
+		mTextClock.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimensionPixelSize(R.dimen.customtextclock_fontsize_20));
         } else if (lockClockSize == 71) {
         mClockView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimensionPixelSize(R.dimen.lock_clock_font_size_71));
+		mTextClock.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimensionPixelSize(R.dimen.customtextclock_fontsize_21));
         } else if (lockClockSize == 72) {
         mClockView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimensionPixelSize(R.dimen.lock_clock_font_size_72));
+		mTextClock.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimensionPixelSize(R.dimen.customtextclock_fontsize_22));
         } else if (lockClockSize == 73) {
         mClockView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimensionPixelSize(R.dimen.lock_clock_font_size_73));
+		mTextClock.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimensionPixelSize(R.dimen.customtextclock_fontsize_23));
         } else if (lockClockSize == 74) {
         mClockView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimensionPixelSize(R.dimen.lock_clock_font_size_74));
+		mTextClock.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimensionPixelSize(R.dimen.customtextclock_fontsize_24));
         } else if (lockClockSize == 75) {
         mClockView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimensionPixelSize(R.dimen.lock_clock_font_size_75));
@@ -1021,7 +1053,7 @@ public class KeyguardStatusView extends GridLayout implements
     public void refreshdatesize() {
         final Resources res = getContext().getResources();
         boolean isPrimary = UserHandle.getCallingUserId() == UserHandle.USER_OWNER;
-        int lockDateSize = isPrimary ? getLockDateSize() : 16;
+        int lockDateSize = isPrimary ? getLockDateSize() : 14;
 
         if (lockDateSize == 0) {
         mKeyguardSlice.setViewsTextSize(TypedValue.COMPLEX_UNIT_PX,
