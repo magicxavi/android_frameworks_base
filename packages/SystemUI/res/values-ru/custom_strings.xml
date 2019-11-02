@@ -126,13 +126,6 @@
     <string name="quick_settings_expanded_navigation_off">Скрыть панель навигации</string>
     <string name="quick_settings_expanded_statusbar_off">Скрыть строку состояния</string>
 
-    <!-- QuickSettings: ScreenStabilization tile [CHAR LIMIT=NONE] -->
-    <string name="quick_settings_stabilization_label">Стабилизация экрана</string>
-    <!-- QuickSettings: ScreenStabilization (off) [CHAR LIMIT=NONE] -->
-    <string name="quick_settings_stabilization_off">Стабилизация экрана</string>
-    <!-- QuickSettings: ScreenStabilization (on) [CHAR LIMIT=NONE] -->
-    <string name="quick_settings_stabilization_on">Стабилизация экрана</string>
-
     <!-- Gaming Mode -->
     <string name="gaming_mode_tile_title">Игровой режим</string>
     <string name="gaming_mode_tile_toast">Игровой режим включен</string>
@@ -158,34 +151,6 @@
     <string name="onthego_service_toggle">Автоматически перезапустить службу</string>
     <string name="onthego_channel_name">Главная</string>
     <string name="global_action_onthego">Режим "На ходу"</string>
-
-    <!-- Screenrecord Notification Ticker -->
-    <string name="screenrecord_notif_ticker">Экран записывается</string>
-    <string name="screenrecord_notif_final_ticker">Экран успешно записан</string>
-    <string name="screenrecord_notif_description">Нажмите, чтобы просмотреть запись экрана</string>
-    <!-- Screenrecord notification title -->
-    <string name="screenrecord_notif_title">Экран записывается</string>
-    <!-- Screenrecord notification action: Stop -->
-    <string name="screenrecord_notif_stop">Остановить</string>
-    <string name="screenrecord_notif_completed">Экран успешно записан</string>
-    <string name="screenrecord_notif_duration">Всего:</string>
-    <!-- Screenrecord notification action: show/hide pointer -->
-    <string name="screenrecord_notif_pointer_on">Показать указатель</string>
-    <string name="screenrecord_notif_pointer_off">Скрыть указатель</string>
-    <!-- Screen record notification error title -->
-    <string name="screenrecord_notif_error">Невозможно записать экран</string>
-    <string name="notification_channel_screenrecord">Записи экрана</string>
-
-    <!-- Screenrecord Tile -->
-    <string name="quick_settings_screenrecord">Запись экрана</string>
-
-    <!-- Screenrecord QS tile -->
-    <string name="quick_settings_screenrecord_label">Запись экрана</string>
-    <string name="quick_settings_screenrecord_lq_label">480p</string>
-    <string name="quick_settings_screenrecord_mq_label">720p</string>
-    <string name="quick_settings_screenrecord_hq_label">1080p</string>
-    <string name="screenrecord_hide_hint">Скрыть подсказку</string>
-    <string name="screenrecord_show_hint">Показать подсказку</string>
 
     <!-- accessibility label for button to open running apps prefscreen [CHAR LIMIT=NONE] -->
     <string name="accessibility_quick_settings_running_services">Открыть экран запущенных служб.</string>

@@ -83,14 +83,6 @@
     <!-- Shows when people have clicked on the custom lockscreen shortcut [CHAR LIMIT=60] -->
     <string name="custom_hint">Проведіть пальцем від іконки в сторону центра екрана</string>
 
-    <!-- Indication on the keyguard that is shown when the device is charging with a dash charger. Should match keyguard_plugged_in_dash_charging [CHAR LIMIT=40]-->
-    <string name="keyguard_indication_dash_charging_time"><xliff:g id="percentage">%2$s</xliff:g> • Потужна зарядка (<xliff:g id="charging_time_left" example="4 hours and 2 minutes">%s</xliff:g> до повної)</string>
-    <string name="keyguard_plugged_in_dash_charging">Потужна зарядка</string>
-
-    <!-- Heads up snooze toast -->
-    <string name="heads_up_snooze_message_one_minute"><xliff:g id="string">%s</xliff:g> - Спливаюче повідомлення відкладено на 1 хвилину.</string>
-    <string name="heads_up_snooze_message"><xliff:g id="string">%s</xliff:g> - Спливаюче повідомлення відкладено на <xliff:g id="number">%d</xliff:g> хвилин.</string>
-
     <!-- QS Config -->
     <string name="qs_menu_item_columns">Стовбці</string>
     <string name="qs_menu_item_columns_landscape">Стовбці в ландш.</string>
@@ -343,9 +335,6 @@
     <!-- Partial screenshot -->
     <string name="screenshot_abort_title">Скріншот не зроблено</string>
     <string name="screenshot_abort_text">Операція перервана</string>
-
-    <!-- Label for item that screenrecords in power menu options dialog -->
-    <string name="global_action_screenrecord">Запис екрану</string>
 
     <!-- Screenshot Delete Toast -->
     <string name="delete_screenshot_toast">Скріншот видалено</string>
